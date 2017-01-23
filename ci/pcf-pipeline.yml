@@ -142,6 +142,7 @@ jobs:
           VAULT_HASH_PASSWORD: {{vault-hash-password}}
           VAULT_TOKEN: {{vault-token}}
           STEMCELL_VERSION: {{stemcell-version}}
+          UAA_LDAP_PASSWORD: {{uaa-ldap-password}}
         inputs:
         - name: concourse-deploy-cloudfoundry
         - name: omg-cli

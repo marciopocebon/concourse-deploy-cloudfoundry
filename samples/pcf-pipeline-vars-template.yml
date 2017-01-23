@@ -50,3 +50,4 @@ vault-hash-keycert: secret/cf-nonprod-keycert
 vault-hash-misc: secret/cf-nonprod-props
 vault-hash-password: secret/cf-nonprod-password
 vault-token: 11111111-1111-1111-1111-111111111111
+uaa-ldap-password: PASSWORD

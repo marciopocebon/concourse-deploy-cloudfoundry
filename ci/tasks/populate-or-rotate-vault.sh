@@ -23,6 +23,7 @@ omg-cli/omg-linux deploy-product \
   --ssl-ignore \
   $PRODUCT_PLUGIN \
   $HAPROXY_FLAG \
+  --uaa-ldap-user-password $UAA_LDAP_PASSWORD \
   --infer-from-cloud \
   --stemcell-version $STEMCELL_VERSION \
   --system-domain $SYSTEM_DOMAIN \

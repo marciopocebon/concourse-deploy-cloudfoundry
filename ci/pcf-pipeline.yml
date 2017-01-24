@@ -51,7 +51,7 @@ resources:
   type: git
   check_every: 4h
   source:
-    uri: https://github.com/enaml-ops/concourse-deploy-cloudfoundry
+    uri: https://github.com/s-matyukevich/concourse-deploy-cloudfoundry
     branch: master
 - name: omg-cli
   type: github-release

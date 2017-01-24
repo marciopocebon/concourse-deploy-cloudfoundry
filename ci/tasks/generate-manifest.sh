@@ -25,6 +25,7 @@ omg-cli/omg-linux deploy-product \
   --etcd-release-version $(<etcd-release/version) \
   --garden-release-version $(<garden-release/version) \
   $HAPROXY_FLAG \
+  --network "pcf-deployment" \
   --infer-from-cloud \
   --stemcell-version $(<stemcells/version) \
   --vault-active \

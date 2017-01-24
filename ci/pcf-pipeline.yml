@@ -65,6 +65,7 @@ resources:
   source:
     user: enaml-ops
     repository: ert-plugin 
+    pre_release: true
 - name: {{deployment-name}}
   type: bosh-deployment
   source:

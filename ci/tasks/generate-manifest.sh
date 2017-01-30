@@ -26,6 +26,7 @@ omg-cli/omg-linux deploy-product \
   --garden-release-version $(<garden-release/version) \
   $HAPROXY_FLAG \
   --infer-from-cloud \
+  --network "pcf-deployment" \
   --stemcell-version $(<stemcells/version) \
   --vault-active \
   --vault-domain $VAULT_ADDR \

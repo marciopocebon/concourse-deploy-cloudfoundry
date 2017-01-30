@@ -34,6 +34,7 @@ omg-cli/omg-linux deploy-product \
   $HAPROXY_FLAG \
   $UAA_LDAP_ENABLED_FLAG \
   --infer-from-cloud \
+  --network "pcf-deployment" \
   --stemcell-version $STEMCELL_VERSION \
   --vault-active \
   --vault-domain $VAULT_ADDR \

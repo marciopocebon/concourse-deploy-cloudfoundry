@@ -33,6 +33,7 @@ omg-cli/omg-linux deploy-product \
   $SSH_FLAG \
   $HAPROXY_FLAG \
   $UAA_LDAP_ENABLED_FLAG \
+  --uaa-ldap-user-password $UAA_LDAP_PASSWORD \
   --infer-from-cloud \
   --network "pcf-deployment" \
   --stemcell-version $STEMCELL_VERSION \

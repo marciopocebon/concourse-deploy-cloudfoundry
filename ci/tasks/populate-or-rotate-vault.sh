@@ -38,7 +38,7 @@ omg-cli/omg-linux deploy-product \
   --vault-token $VAULT_TOKEN > throw-away-manifest.yml
 
 vault read --format=json $VAULT_HASH_PASSWORD | jq .data > passwords.json
-vault write secret/cf-wdc1-prod-password @passwords.json uaa-ldap-user-password=$UAA_LDAP_PASSWORD
+vault write $VAULT_HASH_PASSWORD @passwords.json uaa-ldap-user-password=$UAA_LDAP_PASSWORD
 
 
 #eof

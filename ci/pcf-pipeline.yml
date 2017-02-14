@@ -129,7 +129,8 @@ jobs:
         image_resource:
           type: docker-image
           source:
-            repository: virtmerlin/deploy-worker
+            repository: allomov/deploy-worker
+            tags: v2.0
         run:
           path: concourse-deploy-cloudfoundry/ci/tasks/populate-or-rotate-vault.sh
         params:

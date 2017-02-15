@@ -51,7 +51,8 @@ resources:
   type: git
   check_every: 4h
   source:
-    uri: https://github.com/s-matyukevich/concourse-deploy-cloudfoundry
+    uri: {{deploy-cloudfoundry-git-url}}
+    private_key: {{git-private-key}}
     branch: master
 - name: omg-cli
   type: github-release

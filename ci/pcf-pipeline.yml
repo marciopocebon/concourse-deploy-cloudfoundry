@@ -2,7 +2,6 @@ groups:
 - name: all
   jobs:
   - populate-or-rotate-vault
-  - get-product-version
   - deploy
   - smoke-tests
   - acceptance-tests
@@ -18,7 +17,6 @@ groups:
   - load-vault-properties
 - name: deploy
   jobs:
-  - get-product-version
   - deploy
 - name: tests
   jobs:
@@ -81,6 +79,8 @@ resources:
     api_token: {{pivnet-api-token}}
     product_slug: stemcells
     product_version: {{stemcell-version}}
+- name: cf-version
+  type: concourse-version-resource
 
 resource_types:
 - name: pivnet
@@ -88,6 +88,10 @@ resource_types:
   source:
     repository: pivotalcf/pivnet-resource
     tag: latest-final
+- name: concourse-version-resource
+  type: docker-image
+  source:
+    repository: meteogroup/concourse-version-resource
 
 jobs:
 - name: load-vault-properties
@@ -112,9 +116,13 @@ jobs:
           BOSH_CACERT: {{bosh-cacert}}
         inputs:
         - name: concourse-deploy-cloudfoundry
+    - put: cf-version
 - name: populate-or-rotate-vault
   plan:
     - aggregate:
+      - get: cf-version
+        passed: [load-vault-properties]
+        trigger: true
       - get: concourse-deploy-cloudfoundry
       - get: omg-cli
         params:
@@ -151,69 +159,18 @@ jobs:
         - name: omg-cli
         - name: ert-plugin
         outputs:
-- name: get-product-version
-  plan:
-    - aggregate:
-      - get: concourse-deploy-cloudfoundry
-      - get: omg-cli
-        params:
-          globs:
-          - omg-linux
-      - get: ert-plugin
-        trigger: true
-        params:
-          globs:
-          - ert-1-8-linux
-    - task: get-product-version
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: virtmerlin/deploy-worker
-        run:
-          path: concourse-deploy-cloudfoundry/ci/tasks/get-version-from-plugin.sh
-        params:
-          PRODUCT_PLUGIN: {{product-plugin}}
-          OUTPUT_DIR: versions
-        inputs:
-        - name: concourse-deploy-cloudfoundry
-        - name: omg-cli
-        - name: ert-plugin
-        outputs:
-        - name: versions
-          path: ""
-          #    - task: update-pipeline
-          #      config:
-          #        platform: linux
-          #        image_resource:
-          #          type: docker-image
-          #          source:
-          #            repository: virtmerlin/deploy-worker
-          #        run:
-          #          path: concourse-deploy-cloudfoundry/ci/tasks/update-pipeline.sh
-          #        params:
-          #          PRODUCT: {{product-slug}}
-          #          PIPELINE_NAME: deploy-pcf
-          #          CONCOURSE_URL: {{concourse-url}}
-          #          CONCOURSE_USER: {{concourse-user}}
-          #          CONCOURSE_PASS: {{concourse-pass}}
-          #        inputs:
-          #        - name: concourse-deploy-cloudfoundry
-          #        - name: versions
-          #        outputs:
 - name: deploy
   plan:
     - aggregate:
+      - get: cf-version
+        passed: [load-vault-properties]
+        trigger: true
       - get: concourse-deploy-cloudfoundry
       - get: omg-cli
-        passed: [get-product-version]
         params:
           globs:
           - omg-linux
       - get: ert-plugin
-        passed: [get-product-version]
-        trigger: true
         params:
           globs:
           - ert-1-8-linux
@@ -222,7 +179,6 @@ jobs:
           globs:
           - cf-*
       - get: stemcells
-        trigger: true
         params:
           globs:
           - {{stemcell-cpi-glob}}

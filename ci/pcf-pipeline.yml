@@ -163,7 +163,7 @@ jobs:
   plan:
     - aggregate:
       - get: cf-version
-        passed: [load-vault-properties]
+        passed: [populate-or-rotate-vault]
         trigger: true
       - get: concourse-deploy-cloudfoundry
       - get: omg-cli

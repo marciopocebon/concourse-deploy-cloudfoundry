@@ -73,6 +73,31 @@ resources:
     client_secret: {{bosh-client-secret}}
     deployment: {{deployment-name}}
     target: {{bosh-url}}
+- name: concourse-deploy-redis
+  type: git
+  source:
+    uri: {{deploy-redis-git-url}}
+    private_key: {{git-private-key}}
+- name: concourse-deploy-p-mysql
+  type: git
+  source:
+    uri: {{deploy-p-mysql-git-url}}
+    private_key: {{git-private-key}}
+- name: concourse-deploy-turbulence
+  type: git
+  source:
+    uri: {{deploy-turbulence-git-url}}
+    private_key: {{git-private-key}}
+- name: concourse-deploy-chaos-loris
+  type: git
+  source:
+    uri: {{deploy-chaos-loris-git-url}}
+    private_key: {{git-private-key}}
+- name: concourse-deploy-rabbitmq
+  type: git
+  source:
+    uri: {{deploy-rabbitmq-git-url}}
+    private_key: {{git-private-key}}
 - name: stemcells
   type: pivnet
   source:
@@ -431,3 +456,45 @@ jobs:
         inputs:
         - name: concourse-deploy-cloudfoundry
         outputs:
+- name: update-pipelines
+  plan:
+    - aggregate:
+      - get: {{deployment-name}}
+        passed: [autoscaling-register-broker]
+        trigger: true
+      - get: concourse-deploy-cloudfoundry
+      - get: concourse-deploy-redis
+      - get: concourse-deploy-p-mysql
+      - get: concourse-deploy-turbulence
+      - get: concourse-deploy-chaos-loris
+      - get: concourse-deploy-rabbitmq
+    - task: update-pipelines
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: smatyukevich/bosh-worker
+        run:
+          path: concourse-deploy-bosh/ci/tasks/update-pipelines.sh
+        params:
+          VAULT_ADDR: {{vault-addr}}
+          VAULT_TOKEN: {{vault-token}}
+          DEPLOYMENT_NAME: {{deployment-name}}
+          BOSH_URL: {{bosh-url}}
+          CONCOURSE_URL: {{concourse-url}}
+          CONCOURSE_USER: {{concourse-user}}
+          CONCOURSE_PASSWORD: {{concourse-password}}
+          DEPLOYMENT_NAME: {{deployment-name}}
+          DEPLOY_REDIS_GIT_URL: {{deploy-redis-git-url}}
+          DEPLOY_P_MYSQL_GIT_URL: {{deploy-p-mysql-git-url}}
+          DEPLOY_TURBULENCE_GIT_URL: {{deploy-turbulence-git-url}}
+          DEPLOY_CHAOS_LORIS_GIT_URL: {{deploy-chaos-loris-git-url}}
+          DEPLOY_RABBITMQ_GIT_URL: {{deploy-rabbitmq-git-url}}
+          GIT_PRIVATE_KEY: {{git-private-key}}
+        inputs:
+        - name: concourse-deploy-cloudfoundry
+        - name: concourse-deploy-redis
+        - name: concourse-deploy-turbulence
+        - name: concourse-deploy-chaos-loris
+        - name: concourse-deploy-rabbitmq

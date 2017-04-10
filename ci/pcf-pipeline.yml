@@ -485,7 +485,7 @@ jobs:
           BOSH_URL: {{bosh-url}}
           CONCOURSE_URL: {{concourse-url}}
           CONCOURSE_USER: {{concourse-user}}
-          CONCOURSE_PASSWORD: {{concourse-password}}
+          CONCOURSE_PASSWORD: {{concourse-pass}}
           DEPLOYMENT_NAME: {{deployment-name}}
           DEPLOY_REDIS_GIT_URL: {{deploy-redis-git-url}}
           DEPLOY_P_MYSQL_GIT_URL: {{deploy-p-mysql-git-url}}

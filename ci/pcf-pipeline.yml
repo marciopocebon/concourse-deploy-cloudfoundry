@@ -11,6 +11,7 @@ groups:
   - autoscaling
   - autoscaling-register-broker
   - load-vault-properties
+  - update-pipelines
 - name: vault-interactions
   jobs:
   - populate-or-rotate-vault

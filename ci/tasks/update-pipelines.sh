@@ -27,20 +27,25 @@ bosh_client_id=$(vault read -field=bosh-client-id secret/bosh-$FOUNDATION_NAME-p
 bosh_client_secret=$(vault read -field=bosh-client-secret secret/bosh-$FOUNDATION_NAME-props)
 bosh_cacert=$(vault read -field=bosh-cacert secret/bosh-$FOUNDATION_NAME-props)
 
-pushd concourse-deploy-rabbitmq
-
 export CONCOURSE_URI=$CONCOURSE_URL
 export CONCOURSE_TARGET=$FOUNDATION_NAME
-export PRODUCT_NAME=rabbitmq
-export PIPELINE_REPO=$DEPLOY_RABBITMQ_GIT_URL
 export PIPELINE_REPO_BRANCH=master
 echo $GIT_PRIVATE_KEY > git-private-key.pem
-export PIPELINE_REPO_PRIVATE_KEY_PATH=git-private-key.pem
+export PIPELINE_REPO_PRIVATE_KEY_PATH=../git-private-key.pem
 export BOSH_ENVIRONMENT=${BOSH_URL#https://}
 export BOSH_CLIENT=$bosh_client_id
 export BOSH_CLIENT_SECRET=$bosh_client_secret
 echo $bosh_cacert > bosh-ca-cert.pem
-export BOSH_CA_CERT=bosh-ca-cert.pem
+export BOSH_CA_CERT=../bosh-ca-cert.pem
 
+pushd concourse-deploy-rabbitmq
+export PRODUCT_NAME=rabbitmq
+export PIPELINE_REPO=$DEPLOY_RABBITMQ_GIT_URL
+./setup-pipeline.sh
+popd
+
+pushd concourse-deploy-p-mysql
+export PRODUCT_NAME=p-mysql
+export PIPELINE_REPO=$DEPLOY_P_MYSQL_GIT_URL
 ./setup-pipeline.sh
 popd

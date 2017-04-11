@@ -23,6 +23,10 @@ update_pipeline redis $DEPLOY_REDIS_GIT_URL
 update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
 update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
 
+bosh_client_id=$(vault read -field=bosh-client-id secret/bosh-$FOUNDATION_NAME-props)
+bosh_client_secret=$(vault read -field=bosh-client-secret secret/bosh-$FOUNDATION_NAME-props)
+bosh_cacert=$(vault read -field=bosh-cacert secret/bosh-$FOUNDATION_NAME-props)
+
 export CONCOURSE_URI=$CONCOURSE_URL
 export CONCOURSE_TARGET=$FOUNDATION_NAME
 export PRODUCT_NAME=rabbitmq

@@ -477,7 +477,7 @@ jobs:
           source:
             repository: smatyukevich/bosh-worker
         run:
-          path: concourse-deploy-bosh/ci/tasks/update-pipelines.sh
+          path: concourse-deploy-cloudfoundry/ci/tasks/update-pipelines.sh
         params:
           VAULT_ADDR: {{vault-addr}}
           VAULT_TOKEN: {{vault-token}}

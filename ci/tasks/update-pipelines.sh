@@ -27,6 +27,8 @@ bosh_client_id=$(vault read -field=bosh-client-id secret/bosh-$FOUNDATION_NAME-p
 bosh_client_secret=$(vault read -field=bosh-client-secret secret/bosh-$FOUNDATION_NAME-props)
 bosh_cacert=$(vault read -field=bosh-cacert secret/bosh-$FOUNDATION_NAME-props)
 
+pushd concourse-deploy-rabbitmq
+
 export CONCOURSE_URI=$CONCOURSE_URL
 export CONCOURSE_TARGET=$FOUNDATION_NAME
 export PRODUCT_NAME=rabbitmq
@@ -40,4 +42,5 @@ export BOSH_CLIENT_SECRET=$bosh_client_secret
 echo $bosh_cacert > bosh-ca-cert.pem
 export BOSH_CA_CERT=bosh-ca-cert.pem
 
-concourse-deploy-rabbitmq/setup-pipeline.sh
+./setup-pipeline.sh
+popd

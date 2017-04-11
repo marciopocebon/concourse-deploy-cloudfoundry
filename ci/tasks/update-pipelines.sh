@@ -22,9 +22,9 @@ function update_pipeline()
 update_pipeline redis $DEPLOY_REDIS_GIT_URL
 update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
 update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
-update_pipeline chaos-loris $DEPLOY_BLUEMEDORA_GIT_URL
-update_pipeline chaos-loris $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
-update_pipeline chaos-loris $DEPLOY_SPRING_SERVICES_GIT_URL
+update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
+update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
+update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
 
 bosh_client_id=$(vault read -field=bosh-client-id secret/bosh-$FOUNDATION_NAME-props)
 bosh_client_secret=$(vault read -field=bosh-client-secret secret/bosh-$FOUNDATION_NAME-props)

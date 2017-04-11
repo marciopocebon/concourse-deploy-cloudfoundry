@@ -481,7 +481,7 @@ jobs:
         params:
           VAULT_ADDR: {{vault-addr}}
           VAULT_TOKEN: {{vault-token}}
-          DEPLOYMENT_NAME: {{deployment-name}}
+          FOUNDATION_NAME: {{foundation-name}}
           BOSH_URL: {{bosh-url}}
           CONCOURSE_URL: {{concourse-url}}
           CONCOURSE_USER: {{concourse-user}}

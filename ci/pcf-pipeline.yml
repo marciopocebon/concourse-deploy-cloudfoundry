@@ -107,12 +107,12 @@ resources:
 - name: concourse-deploy-firehose-to-loginsight
   type: git
   source:
-    uri: {{deploy-spring-services-git-url}}
+    uri: {{deploy-firehose-to-loginsight-git-url}}
     private_key: {{git-private-key}}
 - name: concourse-deploy-spring-services
   type: git
   source:
-    uri: {{deploy-spring-services-url}}
+    uri: {{deploy-spring-services-git-url}}
     private_key: {{git-private-key}}
 - name: stemcells
   type: pivnet

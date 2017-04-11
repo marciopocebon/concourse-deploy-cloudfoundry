@@ -99,6 +99,21 @@ resources:
   source:
     uri: {{deploy-rabbitmq-git-url}}
     private_key: {{git-private-key}}
+- name: concourse-deploy-bluemedora
+  type: git
+  source:
+    uri: {{deploy-bluemedora-git-url}}
+    private_key: {{git-private-key}}
+- name: concourse-deploy-firehose-to-loginsight
+  type: git
+  source:
+    uri: {{deploy-spring-services-git-url}}
+    private_key: {{git-private-key}}
+- name: concourse-deploy-spring-services
+  type: git
+  source:
+    uri: {{deploy-spring-services-url}}
+    private_key: {{git-private-key}}
 - name: stemcells
   type: pivnet
   source:

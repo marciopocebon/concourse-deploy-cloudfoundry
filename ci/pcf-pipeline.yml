@@ -499,3 +499,4 @@ jobs:
         - name: concourse-deploy-turbulence
         - name: concourse-deploy-chaos-loris
         - name: concourse-deploy-rabbitmq
+        - name: concourse-deploy-p-mysql

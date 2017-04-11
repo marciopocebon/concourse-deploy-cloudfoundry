@@ -73,10 +73,10 @@ export PIPELINE_REPO=$DEPLOY_P_MYSQL_GIT_URL
 cat > deployment-props.json <<EOF
 {
   "network": "pcf-services",
-  "ip": "$(get_ips 4)", 
-  "proxy-ip": "$(get_ips 4)", 
-  "monitoring-ip": "$(get_ips 4)", 
-  "broker-ip": "$(get_ips 4)", 
+  "ip": "$(get_ips 1)", 
+  "proxy-ip": "$(get_ips 1)", 
+  "monitoring-ip": "$(get_ips 1)", 
+  "broker-ip": "$(get_ips 1)", 
   "base-domain": "$SYSTEM_DOMAIN",
   "notification-recipient-email": "noreply@vmware.com",
   "az": "az1",
@@ -93,16 +93,16 @@ export PRODUCT_NAME=redis
 export PIPELINE_REPO=$DEPLOY_REDIS_GIT_URL
 cat > deployment-props.json <<EOF
 {
-  "broker-ip": "x.x.x.x",
-  "dedicated-nodes-ips": "x.x.x.x,x.x.x.x",
+  "broker-ip": "$(get_ips 1)",
+  "dedicated-nodes-ips": "$(get_ips 2)",
   "network-name": "pcf-services",
   "az": "az1",
   "vm-type": "medium",
   "disk-type": "medium",
-  "syslog-aggregator-host": "x.x.x.x",
+  "syslog-aggregator-host": "$(get_ips 1)",
   "syslog-aggregator-port": "514"
 }
 EOF
 
-bin/update-pipeline.sh
+bin/update-pipeline
 popd

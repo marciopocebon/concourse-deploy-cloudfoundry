@@ -469,6 +469,9 @@ jobs:
       - get: concourse-deploy-turbulence
       - get: concourse-deploy-chaos-loris
       - get: concourse-deploy-rabbitmq
+      - get: concourse-deploy-bluemedora
+      - get: concourse-deploy-firehose-to-loginsight
+      - get: concourse-deploy-spring-services
     - task: update-pipelines
       config:
         platform: linux
@@ -495,9 +498,9 @@ jobs:
           DEPLOY_TURBULENCE_GIT_URL: {{deploy-turbulence-git-url}}
           DEPLOY_CHAOS_LORIS_GIT_URL: {{deploy-chaos-loris-git-url}}
           DEPLOY_RABBITMQ_GIT_URL: {{deploy-rabbitmq-git-url}}
-          DEPLOY_BLUEMEDORA_GIT_URL: deploy-bluemedora-git-url
-          DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL: deploy-firehose-to-loginsight-git-url
-          DEPLOY_SPRING_SERVICES_GIT_URL: deploy-spring-services-git-url
+          DEPLOY_BLUEMEDORA_GIT_URL: {{deploy-bluemedora-git-url}}
+          DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL: {{deploy-firehose-to-loginsight-git-url}}
+          DEPLOY_SPRING_SERVICES_GIT_URL: {{deploy-spring-services-git-url}}
           GIT_PRIVATE_KEY: {{git-private-key}}
         inputs:
         - name: concourse-deploy-cloudfoundry
@@ -506,3 +509,6 @@ jobs:
         - name: concourse-deploy-chaos-loris
         - name: concourse-deploy-rabbitmq
         - name: concourse-deploy-p-mysql
+        - name: concourse-deploy-bluemedora
+        - name: concourse-deploy-firehose-to-loginsight
+        - name: concourse-deploy-spring-services

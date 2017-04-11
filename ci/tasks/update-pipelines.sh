@@ -44,8 +44,44 @@ export PIPELINE_REPO=$DEPLOY_RABBITMQ_GIT_URL
 ./setup-pipeline.sh
 popd
 
+
+all_ips=$(prips $(echo "$PCF_SERVICES_STATIC" | sed 's/-/ /'))
+OLD_IFS=$IFS
+IFS=$'\n'
+all_ips=($all_ips)
+IFS=$OLD_IFS
+
+echo "0" > index
+get_ips(){
+  index=$(cat index)
+  res=""
+  new_index=$(($index + $1))
+  for ((i = $index; i < $new_index; i++))
+  do
+    res="$res,${all_ips[$i]}"
+  done
+  echo "$new_index" > index
+  echo "$res" | cut -c 2-
+}
+
+
 pushd concourse-deploy-p-mysql
 export PRODUCT_NAME=p-mysql
 export PIPELINE_REPO=$DEPLOY_P_MYSQL_GIT_URL
+cat > deployment-props.json <<EOF
+{
+  "network": "network-name",
+  "ip": "$(get_ips 4)", 
+  "proxy-ip": "$(get_ips 4)", 
+  "monitoring-ip": "$(get_ips 4)", 
+  "broker-ip": "$(get_ips 4)", 
+  "base-domain": "$SYSTEM_DOMAIN",
+  "notification-recipient-email": "noreply@vmware.com",
+  "az": "az1",
+  "pivnet_api_token": "$PIVNET_API_TOKEN",
+  "syslog-address": "" 
+}
+EOF
+
 ./setup-pipeline.sh
 popd

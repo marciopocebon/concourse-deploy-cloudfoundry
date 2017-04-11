@@ -487,6 +487,9 @@ jobs:
           CONCOURSE_USER: {{concourse-user}}
           CONCOURSE_PASSWORD: {{concourse-pass}}
           DEPLOYMENT_NAME: {{deployment-name}}
+          SYSTEM_DOMAIN: {{system-domain}}
+          PIVNET_API_TOKEN: {{pivnet-api-token}}
+          PCF_SERVICES_STATIC: {{pcf-services-static}}
           DEPLOY_REDIS_GIT_URL: {{deploy-redis-git-url}}
           DEPLOY_P_MYSQL_GIT_URL: {{deploy-p-mysql-git-url}}
           DEPLOY_TURBULENCE_GIT_URL: {{deploy-turbulence-git-url}}

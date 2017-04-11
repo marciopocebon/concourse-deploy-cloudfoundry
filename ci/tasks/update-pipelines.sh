@@ -19,7 +19,6 @@ function update_pipeline()
               --var="product-name=$product_name"
 }
 
-update_pipeline redis $DEPLOY_REDIS_GIT_URL
 update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
 update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
 update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
@@ -73,7 +72,7 @@ export PRODUCT_NAME=p-mysql
 export PIPELINE_REPO=$DEPLOY_P_MYSQL_GIT_URL
 cat > deployment-props.json <<EOF
 {
-  "network": "network-name",
+  "network": "pcf-services",
   "ip": "$(get_ips 4)", 
   "proxy-ip": "$(get_ips 4)", 
   "monitoring-ip": "$(get_ips 4)", 
@@ -87,4 +86,23 @@ cat > deployment-props.json <<EOF
 EOF
 
 ./setup-pipeline.sh
+popd
+
+pushd concourse-deploy-p-mysql
+export PRODUCT_NAME=redis
+export PIPELINE_REPO=$DEPLOY_REDIS_GIT_URL
+cat > deployment-props.json <<EOF
+{
+  "broker-ip": "x.x.x.x",
+  "dedicated-nodes-ips": "x.x.x.x,x.x.x.x",
+  "network-name": "pcf-services",
+  "az": "az1",
+  "vm-type": "medium",
+  "disk-type": "medium",
+  "syslog-aggregator-host": "x.x.x.x",
+  "syslog-aggregator-port": "514"
+}
+EOF
+
+bin/update-pipeline.sh
 popd

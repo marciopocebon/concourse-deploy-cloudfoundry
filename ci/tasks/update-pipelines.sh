@@ -68,7 +68,6 @@ cat > deployment-props.json <<EOF
   "proxy-ip": "$(get_ips 1)", 
   "monitoring-ip": "$(get_ips 1)", 
   "broker-ip": "$(get_ips 1)", 
-  "base-domain": "$SYSTEM_DOMAIN",
   "notification-recipient-email": "noreply@vmware.com",
   "az": "az1",
   "pivnet_api_token": "$PIVNET_API_TOKEN",

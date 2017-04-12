@@ -72,7 +72,7 @@ cat > deployment-props.json <<EOF
   "notification-recipient-email": "noreply@vmware.com",
   "az": "az1",
   "pivnet_api_token": "$PIVNET_API_TOKEN",
-  "syslog-address": "" 
+  "syslog-address": "$SYSLOG_ADDRESS" 
 }
 EOF
 
@@ -90,7 +90,7 @@ cat > deployment-props.json <<EOF
   "az": "az1",
   "vm-type": "medium",
   "disk-type": "medium",
-  "syslog-aggregator-host": "$(get_ips 1)",
+  "syslog-aggregator-host": "$SYSLOG_ADDRESS",
   "syslog-aggregator-port": "514"
 }
 EOF
@@ -117,7 +117,7 @@ cat > deployment-props.json <<EOF
   "rabbit-public-ip": "$(get_ips 1)",
   "rabbit-server-ip": "$(get_ips 1)",
   "rabbit-broker-ip": "$(get_ips 1)",
-  "syslog-address": ""
+  "syslog-address": "$SYSLOG_ADDRESS"
 }
 EOF
 ./setup-pipeline.sh

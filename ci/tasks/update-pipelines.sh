@@ -32,12 +32,12 @@ bosh_cacert=$(vault read -field=bosh-cacert secret/bosh-$FOUNDATION_NAME-props)
 export CONCOURSE_URI=$CONCOURSE_URL
 export CONCOURSE_TARGET=$FOUNDATION_NAME
 export PIPELINE_REPO_BRANCH=master
-echo $GIT_PRIVATE_KEY > git-private-key.pem
+echo "$GIT_PRIVATE_KEY" > git-private-key.pem
 export PIPELINE_REPO_PRIVATE_KEY_PATH=../git-private-key.pem
 export BOSH_ENVIRONMENT=${BOSH_URL#https://}
 export BOSH_CLIENT=$bosh_client_id
 export BOSH_CLIENT_SECRET=$bosh_client_secret
-echo $bosh_cacert > bosh-ca-cert.pem
+echo "$bosh_cacert" > bosh-ca-cert.pem
 export BOSH_CA_CERT=../bosh-ca-cert.pem
 
 pushd concourse-deploy-rabbitmq

@@ -115,6 +115,7 @@ cat > deployment-props.json <<EOF
   "turbulence-bosh-jobs": "cf-wdc1-prod:cloud_controller_worker-partition,cf-scdc1-prod:doppler-partition"
 }
 EOF
+vault write secret/turbulence-$FOUNDATION_NAME-props @deployment-props.json
 
-./setup-pipeline.sh
+update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
 popd

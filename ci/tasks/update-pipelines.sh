@@ -88,7 +88,7 @@ EOF
 ./setup-pipeline.sh
 popd
 
-pushd concourse-deploy-p-mysql
+pushd concourse-deploy-redis
 export PRODUCT_NAME=redis
 export PIPELINE_REPO=$DEPLOY_REDIS_GIT_URL
 cat > deployment-props.json <<EOF

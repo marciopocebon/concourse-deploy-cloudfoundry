@@ -53,16 +53,16 @@ IFS=$'\n'
 all_ips=($all_ips)
 IFS=$OLD_IFS
 
-echo "0" > index
+echo "0" > /tmp/index
 get_ips(){
-  index=$(cat index)
+  index=$(cat /tmp/index)
   res=""
   new_index=$(($index + $1))
   for ((i = $index; i < $new_index; i++))
   do
     res="$res,${all_ips[$i]}"
   done
-  echo "$new_index" > index
+  echo "$new_index" > /tmp/index
   echo "$res" | cut -c 2-
 }
 

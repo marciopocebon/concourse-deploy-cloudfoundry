@@ -19,7 +19,6 @@ function update_pipeline()
               --var="product-name=$product_name"
 }
 
-update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
 update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
 update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
 update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
@@ -105,4 +104,17 @@ cat > deployment-props.json <<EOF
 EOF
 
 bin/update-pipeline
+popd
+
+pushd concourse-deploy-turbulence
+export PRODUCT_NAME=turbulence
+export PIPELINE_REPO=$DEPLOY_TURBULENCE_GIT_URL
+cat > deployment-props.json <<EOF
+{
+  "turbulence-api-ip":  "$(get_ips 1)",
+  "turbulence-bosh-jobs": "cf-wdc1-prod:cloud_controller_worker-partition,cf-scdc1-prod:doppler-partition"
+}
+EOF
+
+./setup-pipeline.sh
 popd

@@ -69,6 +69,7 @@ cat > deployment-props.json <<EOF
   "monitoring-ip": "$(get_ips 1)", 
   "broker-ip": "$(get_ips 1)", 
   "notification-recipient-email": "noreply@vmware.com",
+  "base-domain": "${SYSTEM_DOMAIN#sys.}"
   "az": "az1",
   "pivnet_api_token": "$PIVNET_API_TOKEN",
   "syslog-address": "$SYSLOG_ADDRESS" 

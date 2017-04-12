@@ -106,16 +106,11 @@ EOF
 bin/update-pipeline
 popd
 
-pushd concourse-deploy-turbulence
-export PRODUCT_NAME=turbulence
-export PIPELINE_REPO=$DEPLOY_TURBULENCE_GIT_URL
-cat > deployment-props.json <<EOF
+cat > concourse-deploy-turbulence/deployment-props.json <<EOF
 {
   "turbulence-api-ip":  "$(get_ips 1)",
   "turbulence-bosh-jobs": "cf-wdc1-prod:cloud_controller_worker-partition,cf-scdc1-prod:doppler-partition"
 }
 EOF
-vault write secret/turbulence-$FOUNDATION_NAME-props @deployment-props.json
-
+vault write secret/turbulence-$FOUNDATION_NAME-props @concourse-deploy-turbulence/deployment-props.json
 update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
-popd

@@ -61,7 +61,8 @@ update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
 update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
 
 pushd concourse-deploy-mgmt
-export CONFIG_REPO=$DEPLOY_P_MYSQL_GIT_URL
+export GIT_PRIVATE_KEY_PATH=$PIPELINE_REPO_PRIVATE_KEY_PATH
+export CONFIG_REPO=$DEPLOY_MGMT_GIT_URL
 ./bin/update-pipeline
 popd
 

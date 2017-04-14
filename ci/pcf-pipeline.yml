@@ -99,7 +99,7 @@ resources:
   source:
     uri: {{deploy-rabbitmq-git-url}}
     private_key: {{git-private-key}}
-- name: concourse-deploy-mgmpt
+- name: concourse-deploy-mgmt
   type: git
   source:
     uri: {{deploy-mgmt-git-url}}
@@ -490,6 +490,7 @@ jobs:
       - get: concourse-deploy-turbulence
       - get: concourse-deploy-chaos-loris
       - get: concourse-deploy-rabbitmq
+      - get: concourse-deploy-mgmt
       - get: concourse-deploy-bluemedora
       - get: concourse-deploy-firehose-to-loginsight
       - get: concourse-deploy-spring-services
@@ -531,6 +532,7 @@ jobs:
         - name: concourse-deploy-turbulence
         - name: concourse-deploy-chaos-loris
         - name: concourse-deploy-rabbitmq
+        - name: concourse-deploy-mgmt
         - name: concourse-deploy-p-mysql
         - name: concourse-deploy-bluemedora
         - name: concourse-deploy-firehose-to-loginsight

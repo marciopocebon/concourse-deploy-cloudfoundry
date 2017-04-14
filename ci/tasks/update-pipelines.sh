@@ -59,7 +59,6 @@ update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
 update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
 update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
 update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
-update_pipeline mgmt $DEPLOY_MGMT_GIT_URL $FOUNDATION_NAME
 
 pushd concourse-deploy-mgmt
 export CONFIG_REPO=$DEPLOY_P_MYSQL_GIT_URL

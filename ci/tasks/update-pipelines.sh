@@ -6,6 +6,7 @@ function update_pipeline()
 {
   product_name=$1
   pipeline_repo=$2
+  branch=${3:master}
   echo "Updating pipeline $product_name"
   fly -t $FOUNDATION_NAME set-pipeline -n -p deploy-$product_name \
               --config="concourse-deploy-$product_name/ci/pipeline.yml" \
@@ -14,15 +15,11 @@ function update_pipeline()
               --var="foundation-name=$FOUNDATION_NAME" \
               --var="deployment-name=$product_name" \
               --var="pipeline-repo=$pipeline_repo" \
-              --var="pipeline-repo-branch=master" \
+              --var="pipeline-repo-branch=$branch" \
               --var="pipeline-repo-private-key=$GIT_PRIVATE_KEY" \
               --var="product-name=$product_name"
 }
 
-update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
-update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
-update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
-update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
 
 all_ips=$(prips $(echo "$PCF_SERVICES_STATIC" | sed 's/-/ /'))
 OLD_IFS=$IFS
@@ -57,6 +54,12 @@ export BOSH_CLIENT=$bosh_client_id
 export BOSH_CLIENT_SECRET=$bosh_client_secret
 echo "$bosh_cacert" > bosh-ca-cert.pem
 export BOSH_CA_CERT=../bosh-ca-cert.pem
+
+update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
+update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
+update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
+update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
+update_pipeline mgmt $DEPLOY_MGMT_GIT_URL $FOUNDATION_NAME
 
 pushd concourse-deploy-p-mysql
 export PRODUCT_NAME=p-mysql

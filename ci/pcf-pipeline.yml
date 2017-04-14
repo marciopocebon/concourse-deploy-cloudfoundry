@@ -99,6 +99,12 @@ resources:
   source:
     uri: {{deploy-rabbitmq-git-url}}
     private_key: {{git-private-key}}
+- name: concourse-deploy-mgmpt
+  type: git
+  source:
+    uri: {{deploy-mgmt-git-url}}
+    branch: {{foundation-name}}
+    private_key: {{git-private-key}}
 - name: concourse-deploy-bluemedora
   type: git
   source:

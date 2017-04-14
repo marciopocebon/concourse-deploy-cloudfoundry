@@ -61,6 +61,11 @@ update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
 update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
 update_pipeline mgmt $DEPLOY_MGMT_GIT_URL $FOUNDATION_NAME
 
+pushd concourse-deploy-mgmt
+export CONFIG_REPO=$DEPLOY_P_MYSQL_GIT_URL
+./bin/update-pipeline
+popd
+
 pushd concourse-deploy-p-mysql
 export PRODUCT_NAME=p-mysql
 export PIPELINE_REPO=$DEPLOY_P_MYSQL_GIT_URL

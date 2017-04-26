@@ -526,6 +526,9 @@ jobs:
           DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL: {{deploy-firehose-to-loginsight-git-url}}
           DEPLOY_SPRING_SERVICES_GIT_URL: {{deploy-spring-services-git-url}}
           GIT_PRIVATE_KEY: {{git-private-key}}
+          CONFIGSERVER_GIT_REPO_URL: {{configserver-git-repo-url}}
+          CONFIGSERVER_GIT_REPO_USERNAME: {{configserver-git-repo-user}}
+          CONFIGSERVER_GIT_REPO_PASSWORD: {{configserver-git-repo-password}}
         inputs:
         - name: concourse-deploy-cloudfoundry
         - name: concourse-deploy-redis

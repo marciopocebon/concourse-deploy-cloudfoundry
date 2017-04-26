@@ -40,9 +40,11 @@ get_ips(){
   echo "$res" | cut -c 2-
 }
 
-bosh_client_id=$(vault read -field=bosh-client-id secret/bosh-$FOUNDATION_NAME-props)
-bosh_client_secret=$(vault read -field=bosh-client-secret secret/bosh-$FOUNDATION_NAME-props)
+export BOSH_CLIENT=$(vault read -field=bosh-client-id secret/bosh-$FOUNDATION_NAME-props)
+export BOSH_CLIENT_SECRET=$(vault read -field=bosh-client-secret secret/bosh-$FOUNDATION_NAME-props)
 bosh_cacert=$(vault read -field=bosh-cacert secret/bosh-$FOUNDATION_NAME-props)
+echo "$bosh_cacert" > bosh-ca-cert.pem
+export BOSH_CA_CERT=../bosh-ca-cert.pem
 
 export CONCOURSE_URI=$CONCOURSE_URL
 export CONCOURSE_TARGET=$FOUNDATION_NAME
@@ -50,15 +52,10 @@ export PIPELINE_REPO_BRANCH=master
 echo "$GIT_PRIVATE_KEY" > git-private-key.pem
 export PIPELINE_REPO_PRIVATE_KEY_PATH=../git-private-key.pem
 export BOSH_ENVIRONMENT=${BOSH_URL#https://}
-export BOSH_CLIENT=$bosh_client_id
-export BOSH_CLIENT_SECRET=$bosh_client_secret
-echo "$bosh_cacert" > bosh-ca-cert.pem
-export BOSH_CA_CERT=../bosh-ca-cert.pem
 
 update_pipeline chaos-loris $DEPLOY_CHAOS_LORIS_GIT_URL
 update_pipeline bluemedora $DEPLOY_BLUEMEDORA_GIT_URL
 update_pipeline firehose-to-loginsight $DEPLOY_FIREHOSE_TO_LOGINSIGHT_GIT_URL
-update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
 
 pushd concourse-deploy-mgmt
 export GIT_PRIVATE_KEY_PATH=$PIPELINE_REPO_PRIVATE_KEY_PATH
@@ -114,6 +111,17 @@ cat > concourse-deploy-turbulence/deployment-props.json <<EOF
 EOF
 vault write secret/turbulence-$FOUNDATION_NAME-props @concourse-deploy-turbulence/deployment-props.json
 update_pipeline turbulence $DEPLOY_TURBULENCE_GIT_URL
+
+cat > concourse-deploy-spring-services/deployment-props.json <<EOF
+{
+  "eureka-ip":  "$(get_ips 1)",
+  "configserver-git-repo-url": "$CONFIGSERVER_GIT_REPO_URL",
+  "configserver-git-repo-user": "$CONFIGSERVER_GIT_REPO_USERNAME",
+  "configserver-git-repo-password": "$CONFIGSERVER_GIT_REPO_PASSWORD"
+}
+EOF
+vault write secret/spring-services-$FOUNDATION_NAME-props @concourse-deploy-spring-services/deployment-props.json
+update_pipeline spring-services $DEPLOY_SPRING_SERVICES_GIT_URL
 
 pushd concourse-deploy-rabbitmq
 export PRODUCT_NAME=rabbitmq
